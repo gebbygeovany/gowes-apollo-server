@@ -10,7 +10,7 @@ const {
   RajaOngkirApi,
 } = require("./graphql/resolvers/datasource/RajaOngkirApi");
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 const server = new ApolloServer({
   typeDefs,
@@ -31,7 +31,7 @@ mongoose
   .connect(MONGODB, { useNewUrlParser: true }, { useUnifiedTopology: true })
   .then(() => {
     console.log("MongoDB Connected");
-    return server.listen();
+    return server.listen(PORT);
   })
   .then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
