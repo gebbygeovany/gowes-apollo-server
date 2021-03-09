@@ -93,11 +93,11 @@ module.exports = gql`
   }
 
   type Address {
-    cityName: String
-    cityId: String
-    district: String
-    postalCode: String
-    detail: String
+    cityName: String!
+    cityId: String!
+    district: String!
+    postalCode: String!
+    detail: String!
   }
 
   type User {
@@ -201,11 +201,11 @@ module.exports = gql`
   }
   
   input AddressInput {
-    cityName: String
-    cityId: String
-    district: String
-    postalCode: String
-    detail: String
+    cityName: String!
+    cityId: String!
+    district: String!
+    postalCode: String!
+    detail: String!
   }
 
   input SellerProfileInput {
@@ -273,12 +273,13 @@ module.exports = gql`
     getPost(postId: ID!): Post!
     getItem(itemId: ID!): Item!
     getItems: [Item]
+    searchItems(keyword: String!): [Item]
     getSellerItems(userId: ID!): [Item]
     getItemReviews(itemId: ID!): [Review]
     getUserReviews(userId: ID!): [Review]
     getBookmarks: [Item]
     getChats: [Chat]
-    isChatExists(itemUserId: ID!): [chatExists]
+    isChatExists(itemUserId: ID!, currentUserId: ID!): [chatExists]
     getMessages(chatId: ID!): [Message]
     getUserCartItems: [Cart]
     getUserCartItem(itemId: ID!): Cart

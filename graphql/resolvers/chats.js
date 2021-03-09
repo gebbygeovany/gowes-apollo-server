@@ -17,14 +17,14 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async isChatExists(_, { itemUserId }, context) {
-      const { id: userId } = checkAuth(context);
+    async isChatExists(_, { itemUserId, currentUserId }, context) {
+      // const { id: userId } = checkAuth(context);
       try {
         const chats = await Chat.aggregate([
           {
             $match: {
               users: {
-                $all: [new ObjectId(userId), new ObjectId(itemUserId)],
+                $all: [new ObjectId(currentUserId), new ObjectId(itemUserId)],
               },
             },
           },

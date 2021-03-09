@@ -30,5 +30,5 @@ const itemSchema= new Schema({
     ],
     createdAt: String
 })
-
+itemSchema.index({'$**': 'text'});
 module.exports = model('Item', itemSchema)
