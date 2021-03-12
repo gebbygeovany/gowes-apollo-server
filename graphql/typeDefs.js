@@ -93,11 +93,11 @@ module.exports = gql`
   }
 
   type Address {
-    cityName: String!
-    cityId: String!
-    district: String!
-    postalCode: String!
-    detail: String!
+    cityName: String
+    cityId: String
+    district: String
+    postalCode: String
+    detail: String
   }
 
   type User {
@@ -201,11 +201,11 @@ module.exports = gql`
   }
   
   input AddressInput {
-    cityName: String!
-    cityId: String!
-    district: String!
-    postalCode: String!
-    detail: String!
+    cityName: String
+    cityId: String
+    district: String
+    postalCode: String
+    detail: String
   }
 
   input SellerProfileInput {
