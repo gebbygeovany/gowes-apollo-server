@@ -29,13 +29,71 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async searchItems(_, { keyword }) {
+    async searchItems(_, { keyword, category, condition, city }) {
       try {
-        const items = await Item.find({ $text: { $search: keyword } })
-          .limit(10)
-          .sort({ createdAt: -1 })
-          .populate("user");
-
+        // const items = await Item.find({ $text: { $search: keyword } })
+        //   .limit(10)
+        //   .sort({ createdAt: -1 })
+        //   .populate("user");
+        const filterQuery = {
+          category: category,
+          condition: condition,
+          "user_docs.address.cityName": city,
+        };
+        if (!category || category == "") {
+          delete filterQuery.category;
+        }
+        if (!condition || condition == "") {
+          delete filterQuery.condition;
+        }
+        if (!city || city == "") {
+          delete filterQuery["user_docs.address.cityName"];
+        }
+        const items = await Item.aggregate([
+          {
+            $search: {
+              search: {
+                query: keyword,
+                path: "name",
+              },
+              highlight: {
+                path: "name",
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "user",
+              foreignField: "_id",
+              as: "user_docs",
+            },
+          },
+          {
+            $match: filterQuery,
+          },
+          {
+            $project: {
+              _id: 0,
+              id: "$_id",
+              name: 1,
+              price: 1,
+              createdAt: 1,
+              description: 1,
+              category: 1,
+              condition: 1,
+              images: 1,
+              bookmarkedBy: 1,
+              user: {
+                $mergeObjects: [
+                  {
+                    $arrayElemAt: ["$user_docs", 0],
+                  },
+                ],
+              },
+            },
+          },
+        ]);
         return items;
       } catch (err) {
         throw new Error(err);

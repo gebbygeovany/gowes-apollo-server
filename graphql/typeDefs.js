@@ -273,7 +273,7 @@ module.exports = gql`
     getPost(postId: ID!): Post!
     getItem(itemId: ID!): Item!
     getItems: [Item]
-    searchItems(keyword: String!): [Item]
+    searchItems(keyword: String!, category: String, condition: String, city: String): [Item]
     getSellerItems(userId: ID!): [Item]
     getItemReviews(itemId: ID!): [Review]
     getUserReviews(userId: ID!): [Review]
