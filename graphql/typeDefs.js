@@ -177,6 +177,12 @@ module.exports = gql`
     costs: [Costs]
   }
 
+  type MidTransResult {
+    token: String
+    redirect_url: String
+  }
+
+
   input CostInput {
     origin: String!
     destination: String!
@@ -265,6 +271,7 @@ module.exports = gql`
     _id: ID
     lastText: String
   }
+
   type Query {
     getUser(userId: ID!): User!
     getSeller(sellerId: ID!): User
@@ -287,6 +294,7 @@ module.exports = gql`
     getUserOrderById(oderId: ID!): [Order]
     getCities: [City] @cacheControl(maxAge: 1000)
     getCosts(costInput: CostInput): [Results]
+    createPayment: MidTransResult
   }
   type Mutation {
     register(registerInput: RegisterInput): User!

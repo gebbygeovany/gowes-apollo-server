@@ -86,6 +86,7 @@ module.exports = {
               bookmarkedBy: 1,
               user: {
                 $mergeObjects: [
+                  { id: { $arrayElemAt: ["$user_docs._id", 0] } },
                   {
                     $arrayElemAt: ["$user_docs", 0],
                   },

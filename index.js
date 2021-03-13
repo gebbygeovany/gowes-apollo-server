@@ -9,6 +9,9 @@ const pubsub = new PubSub();
 const {
   RajaOngkirApi,
 } = require("./graphql/resolvers/datasource/RajaOngkirApi");
+const {
+  MidTransApi,
+} = require("./graphql/resolvers/datasource/MidTransApi");
 
 const PORT = process.env.PORT || 4000;
 
@@ -17,7 +20,8 @@ const server = new ApolloServer({
   resolvers,
   dataSources: () => {
       return {
-        rajaOngkirApi: new RajaOngkirApi()
+        rajaOngkirApi: new RajaOngkirApi(),
+        midTransApi: new MidTransApi()
       }
   },
   context: (context) => {
