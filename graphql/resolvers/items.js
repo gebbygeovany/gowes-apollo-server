@@ -31,10 +31,6 @@ module.exports = {
     },
     async searchItems(_, { keyword, category, condition, city }) {
       try {
-        // const items = await Item.find({ $text: { $search: keyword } })
-        //   .limit(10)
-        //   .sort({ createdAt: -1 })
-        //   .populate("user");
         const filterQuery = {
           category: category,
           condition: condition,
