@@ -271,7 +271,7 @@ module.exports = gql`
     lastText: String
   }
 
-  input SearhItemInput {
+  input SearchItemInput {
     keyword: String!
     category: String
     condition: String
@@ -288,7 +288,7 @@ module.exports = gql`
     getPost(postId: ID!): Post!
     getItem(itemId: ID!): Item!
     getItems: [Item]
-    searchItems(searhItemInput: SearhItemInput): [Item]
+    searchItems(searchItemInput: SearchItemInput): [Item]
     getSellerItems(userId: ID!): [Item]
     getItemReviews(itemId: ID!): [Review]
     getUserReviews(userId: ID!): [Review]
