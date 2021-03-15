@@ -29,13 +29,18 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async searchItems(_, { keyword, category, condition, city }) {
+    async searchItems(_, {searhItemInput: { keyword, category, condition, city, minPrice, maxPrice }}) {
       try {
         const filterQuery = {
           category: category,
           condition: condition,
           "user_docs.address.cityName": city,
+          $and: [
+            {price: {$gte: minPrice}},
+            {price: {$lte: maxPrice}},
+            ]
         };
+        console.log('before delete: ',filterQuery.$and)
         if (!category || category == "") {
           delete filterQuery.category;
         }
@@ -45,6 +50,13 @@ module.exports = {
         if (!city || city == "") {
           delete filterQuery["user_docs.address.cityName"];
         }
+        if (!minPrice || minPrice < 0) {
+          delete filterQuery.$and.splice(0, 1);
+        }
+        if (!maxPrice || maxPrice < 0) {
+          delete filterQuery.$and.splice(1);
+        }
+        console.log('after delete: ',filterQuery.$and)
         const items = await Item.aggregate([
           {
             $search: {

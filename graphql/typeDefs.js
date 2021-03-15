@@ -182,7 +182,6 @@ module.exports = gql`
     redirect_url: String
   }
 
-
   input CostInput {
     origin: String!
     destination: String!
@@ -205,7 +204,7 @@ module.exports = gql`
     birthDate: String!
     address: AddressInput!
   }
-  
+
   input AddressInput {
     cityName: String
     cityId: String
@@ -272,6 +271,15 @@ module.exports = gql`
     lastText: String
   }
 
+  input SearhItemInput {
+    keyword: String!
+    category: String
+    condition: String
+    city: String
+    minPrice: Int
+    maxPrice: Int
+  }
+
   type Query {
     getUser(userId: ID!): User!
     getSeller(sellerId: ID!): User
@@ -280,7 +288,7 @@ module.exports = gql`
     getPost(postId: ID!): Post!
     getItem(itemId: ID!): Item!
     getItems: [Item]
-    searchItems(keyword: String!, category: String, condition: String, city: String): [Item]
+    searchItems(searhItemInput: SearhItemInput): [Item]
     getSellerItems(userId: ID!): [Item]
     getItemReviews(itemId: ID!): [Review]
     getUserReviews(userId: ID!): [Review]
