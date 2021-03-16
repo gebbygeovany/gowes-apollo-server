@@ -50,14 +50,14 @@ module.exports = {
         if (!city || city == "") {
           delete filterQuery["user_docs.address.cityName"];
         }
-        if (!minPrice && !maxPrice) {
+        if ((!minPrice && !maxPrice) || (minPrice < 0 && maxPrice < 0) ) {
           delete filterQuery.$and;
         } else {
           if (!minPrice || minPrice < 0) {
-            filterQuery.$and.splice(0, 1);
+            filterQuery.$and.shift();
           }
           if (!maxPrice || maxPrice < 0) {
-            filterQuery.$and.splice(1);
+            filterQuery.$and.pop();
           }
         }
         
