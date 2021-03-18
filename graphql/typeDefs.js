@@ -281,6 +281,11 @@ module.exports = gql`
     maxPrice: Int
   }
 
+  input CheckedCart {
+    itemIds: [ID]!
+    isChecked: Boolean!
+  }
+
   type Query {
     getUser(userId: ID!): User!
     getSeller(sellerId: ID!): User
@@ -325,6 +330,7 @@ module.exports = gql`
     deleteCartItem(cartId: ID!): String!
     addOrder(addOrderInput: AddOrderInput!): Order!
     updateOrder(oderId: ID!, addOrderInput: AddOrderInput!): Order!
+    updateCheckCart(checkedCart: CheckedCart!): String!
   }
   type Subscription {
     newPost: Post!
