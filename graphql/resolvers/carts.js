@@ -34,7 +34,7 @@ module.exports = {
         }
     },
     Mutation: {
-        async addCartItem(_, { itemId, note, amountItem }, context) {
+        async addCartItem(_, { itemId, note, isChecked, amountItem }, context) {
             const user = checkAuth(context)
             const { valid, errors } = validateAddCartItemInput(amountItem)
             if (!valid) {
@@ -45,6 +45,8 @@ module.exports = {
 
             if (isCartItemExists) {
                 isCartItemExists.amountItem += amountItem
+                isCartItemExists.note = note
+                isCartItemExists.isChecked = isChecked
                 const updatedCartItem = await isCartItemExists.save()
                 return updatedCartItem
             } else {
@@ -52,6 +54,36 @@ module.exports = {
                     item: itemId,
                     user: user.id,
                     note: note,
+                    isChecked: false,
+                    amountItem: amountItem,
+                    createdAt: new Date().toISOString()
+                })
+    
+                const cartItem = await newCartItem.save()
+                return cartItem
+            }
+        },
+        async editCartItem(_, { itemId, note, isChecked, amountItem }, context) {
+            const user = checkAuth(context)
+            const { valid, errors } = validateAddCartItemInput(amountItem)
+            if (!valid) {
+                throw new UserInputError('Errors', { errors })
+            }
+
+            const isCartItemExists = await Cart.findOne({ item: itemId, user: user.id})
+
+            if (isCartItemExists) {
+                isCartItemExists.amountItem = amountItem
+                isCartItemExists.note = note
+                isCartItemExists.isChecked = isChecked
+                const updatedCartItem = await isCartItemExists.save()
+                return updatedCartItem
+            } else {
+                const newCartItem = new Cart({
+                    item: itemId,
+                    user: user.id,
+                    note: note,
+                    isChecked: false,
                     amountItem: amountItem,
                     createdAt: new Date().toISOString()
                 })

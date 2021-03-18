@@ -48,6 +48,7 @@ module.exports = gql`
     item: Item!
     user: User!
     note: String!
+    isChecked: Boolean!
     amountItem: Int!
     createdAt: String!
   }
@@ -319,7 +320,8 @@ module.exports = gql`
     likePost(postId: ID!): Post!
     bookmarkItem(itemId: ID!): Item!
     addMessage(messageInput: MessageInput!): Message
-    addCartItem(itemId: ID!, note: String!, amountItem: Int!): Cart!
+    addCartItem(itemId: ID!, note: String!, isChecked: Boolean!,  amountItem: Int!): Cart!
+    editCartItem(itemId: ID!, note: String!, isChecked: Boolean!,  amountItem: Int!): Cart!
     deleteCartItem(cartId: ID!): String!
     addOrder(addOrderInput: AddOrderInput!): Order!
     updateOrder(oderId: ID!, addOrderInput: AddOrderInput!): Order!
