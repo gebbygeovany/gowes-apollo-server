@@ -28,6 +28,27 @@ module.exports = {
         throw new Error(err);
       }
     },
+    async getUserCartItemsCheckout(_, __, context) {
+      try {
+        const user = checkAuth(context);
+        const cart = await Cart.find({ user: user.id, isChecked: true })
+          .populate("user")
+          .populate({
+            path: "item",
+            populate: {
+              path: "user",
+              options: { sort: { "seller.username": -1 } },
+            },
+          });
+        if (cart) {
+          return cart;
+        } else {
+          throw new Error("User cart items checkout not found");
+        }
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
     async getUserCartItem(_, { itemId }, context) {
       try {
         const user = checkAuth(context);
@@ -143,7 +164,6 @@ module.exports = {
         },
         { new: true }
       );
-      console.log(updatedCart);
       return "Cart items updated";
     },
   },

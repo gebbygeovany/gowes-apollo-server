@@ -303,6 +303,7 @@ module.exports = gql`
     isChatExists(itemUserId: ID!, currentUserId: ID!): [chatExists]
     getMessages(chatId: ID!): [Message]
     getUserCartItems: [Cart]
+    getUserCartItemsCheckout: [Cart]
     getUserCartItem(itemId: ID!): Cart
     getUserOrders: [Order]
     getUserOrderById(oderId: ID!): [Order]
