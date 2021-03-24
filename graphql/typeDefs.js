@@ -16,15 +16,19 @@ module.exports = gql`
     id: ID!
     items: [Item]!
     user: User!
-    state: OrderState!
-    awbNumber: String!
-    shippingCost: Int!
+    state: OrderState
+    shipping: OrderShipping!
   }
 
   type OrderState {
     stateType: String!
     createdAt: String!
     deadline: String!
+  }
+
+  type OrderShipping {
+    awbNumber: String!
+    courierName: String!
   }
 
   type Item {
@@ -245,12 +249,16 @@ module.exports = gql`
   input AddOrderInput {
     itemIds: [ID]!
     state: OrderStateInput!
-    awbNumber: String!
-    shippingCost: Int!
+    shipping: OrderShippingInput!
   }
 
   input OrderStateInput {
-    type: String!
+    stateType: String
+  }
+
+  input OrderShippingInput {
+    awbNumber: String
+    courierName: String
   }
 
   input MessageInput {
@@ -326,8 +334,18 @@ module.exports = gql`
     likePost(postId: ID!): Post!
     bookmarkItem(itemId: ID!): Item!
     addMessage(messageInput: MessageInput!): Message
-    addCartItem(itemId: ID!, note: String!, isChecked: Boolean!,  amountItem: Int!): Cart!
-    editCartItem(itemId: ID!, note: String!, isChecked: Boolean!,  amountItem: Int!): Cart!
+    addCartItem(
+      itemId: ID!
+      note: String!
+      isChecked: Boolean!
+      amountItem: Int!
+    ): Cart!
+    editCartItem(
+      itemId: ID!
+      note: String!
+      isChecked: Boolean!
+      amountItem: Int!
+    ): Cart!
     deleteCartItem(cartId: ID!): String!
     addOrder(addOrderInput: AddOrderInput!): Order!
     updateOrder(oderId: ID!, addOrderInput: AddOrderInput!): Order!
