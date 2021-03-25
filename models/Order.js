@@ -13,6 +13,7 @@ const orderSchema = new Schema({
   shipping: {
     awbNumber: String,
     courierName: String,
+    buyerAddress: String,
   },
   state: {
     stateType: String,

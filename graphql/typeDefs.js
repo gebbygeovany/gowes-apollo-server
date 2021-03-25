@@ -29,6 +29,7 @@ module.exports = gql`
   type OrderShipping {
     awbNumber: String!
     courierName: String!
+    buyerAddress: String!
   }
 
   type Item {
@@ -259,6 +260,7 @@ module.exports = gql`
   input OrderShippingInput {
     awbNumber: String
     courierName: String
+    buyerAddress: String
   }
 
   input MessageInput {
