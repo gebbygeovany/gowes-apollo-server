@@ -248,9 +248,20 @@ module.exports = gql`
   }
 
   input AddOrderInput {
-    itemIds: [ID]!
+    items: [OrderItemInput]!
     state: OrderStateInput!
+    sellerUsername: String!
     shipping: OrderShippingInput!
+  }
+
+  input OrderItemInput {
+    id: String!
+    name: String!
+    price: Int!
+    weight: Int!
+    images: [ImageInput]
+    amountItem: Int!
+    note: String!
   }
 
   input OrderStateInput {
@@ -259,8 +270,9 @@ module.exports = gql`
 
   input OrderShippingInput {
     awbNumber: String
-    courierName: String
-    buyerAddress: String
+    courierName: String!
+    buyerAddress: String!
+    shippingCost: Int!
   }
 
   input MessageInput {
@@ -349,7 +361,7 @@ module.exports = gql`
       amountItem: Int!
     ): Cart!
     deleteCartItem(cartId: ID!): String!
-    addOrder(addOrderInput: AddOrderInput!): Order!
+    addOrder(addOrderInput: AddOrderInput!, cartItemIds: [ID]!): Order!
     updateOrder(oderId: ID!, addOrderInput: AddOrderInput!): Order!
     updateCheckCart(checkedCart: CheckedCart!): String!
   }

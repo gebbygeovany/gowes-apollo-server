@@ -1,8 +1,7 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
-
+const Cart = require("../../models/Cart");
 const Order = require("../../models/Order");
 const checkAuth = require("../../util/check-auth");
-const { validateAddCartItemInput } = require("../../util/validators");
 
 module.exports = {
   Query: {
@@ -38,14 +37,21 @@ module.exports = {
     },
   },
   Mutation: {
-    async addOrder(_, { addOrderInput: { itemIds, shipping } }, context) {
+    async addOrder(
+      _,
+      { addOrderInput: { items, shipping, sellerUsername }, cartItemIds },
+      context
+    ) {
       const user = checkAuth(context);
       const deadlineTime = new Date();
       deadlineTime.setHours(deadlineTime.getHours() + 24);
       const newOrder = new Order({
-        items: itemIds,
+        items: items,
         user: user.id,
         shipping: shipping,
+        seller: {
+          username: sellerUsername,
+        },
         state: {
           stateType: "CONFIRMATION",
           createdAt: new Date().toISOString(),
@@ -53,8 +59,8 @@ module.exports = {
         },
       });
 
+      await Cart.deleteMany({ _id: { $in: cartItemIds } });
       const order = await newOrder.save();
-
       return order;
     },
     async updateOrder(
