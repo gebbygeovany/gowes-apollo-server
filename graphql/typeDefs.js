@@ -14,10 +14,32 @@ module.exports = gql`
 
   type Order {
     id: ID!
-    items: [Item]!
+    items: [OrderItem]!
+    seller: OrderSeller!
     user: User!
     state: OrderState
     shipping: OrderShipping!
+    logs: [OrderLog]!
+  }
+
+  type OrderLog {
+    stateType: String!
+    succsededAt: String!
+    executedAt: String!
+  }
+
+  type OrderSeller {
+    username: String!
+  }
+
+  type OrderItem {
+    id: String!
+    name: String!
+    price: Int!
+    weight: Int!
+    images: [Image]
+    amountItem: Int!
+    note: String!
   }
 
   type OrderState {
