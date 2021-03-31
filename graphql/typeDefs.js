@@ -381,6 +381,7 @@ module.exports = gql`
     getUserCartItemsCheckout: [Cart]
     getUserCartItem(itemId: ID!): Cart
     getUserOrders: [Order]
+    getSellerOrders(username: String!): [Order]
     getUserOrderById(oderId: ID!): [Order]
     getCities: [City] @cacheControl(maxAge: 1000)
     getCosts(costInput: CostInput): [Results]

@@ -35,7 +35,28 @@ module.exports = {
         throw new Error(err);
       }
     },
+    async getSellerOrders(_, {username}, context) {
+      try {
+        // checkAuth(context);
+        const order = await Order.find({
+          seller: {
+            username: username
+          }
+        })
+          .populate("user")
+          .populate("items");
+
+        if (order) {
+          return order;
+        } else {
+          throw new Error("User order not found");
+        }
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
   },
+
   Mutation: {
     async addOrder(
       _,
