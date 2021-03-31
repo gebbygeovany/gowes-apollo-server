@@ -1,8 +1,8 @@
 const { RESTDataSource } = require("apollo-datasource-rest");
 
 let getCurrentTimestamp = () => {
-    return "" + Math.round(new Date().getTime() / 1000);
-  };
+  return "" + Math.round(new Date().getTime() / 1000);
+};
 
 class MidTransApi extends RESTDataSource {
   constructor() {
@@ -18,20 +18,43 @@ class MidTransApi extends RESTDataSource {
     );
   }
 
-  async createPayment() {
+  async createPayment(createPaymentInput) {
     const data = await this.post(`transactions`, {
       transaction_details: {
-        order_id: "order-csb-" + getCurrentTimestamp(),
-        gross_amount: 10000,
+        order_id: "order-gws-" + getCurrentTimestamp(),
+        gross_amount: createPaymentInput.grossAmount,
       },
       credit_card: {
         secure: true,
       },
+      item_details: createPaymentInput.itemDetails,
       customer_details: {
-        first_name: "Johny",
-        last_name: "Kane",
-        email: "testmidtrans@mailnesia.com",
-        phone: "08111222333",
+        first_name: createPaymentInput.customerDetails.firstName,
+        last_name: "",
+        email: createPaymentInput.customerDetails.email,
+        phone: createPaymentInput.customerDetails.phone,
+        billing_address: {
+          first_name:
+            createPaymentInput.customerDetails.billingAddress.firstName,
+          last_name: "",
+          email: createPaymentInput.customerDetails.billingAddress.email,
+          phone: createPaymentInput.customerDetails.billingAddress.phone,
+          address: createPaymentInput.customerDetails.billingAddress.address,
+          city: createPaymentInput.customerDetails.billingAddress.city,
+          postal_code: createPaymentInput.customerDetails.billingAddress.postalCode,
+          country_code: createPaymentInput.customerDetails.billingAddress.countryCode,
+        },
+        shipping_address: {
+          first_name:
+            createPaymentInput.customerDetails.shippingAddress.firstName,
+          last_name: "",
+          email: createPaymentInput.customerDetails.shippingAddress.email,
+          phone: createPaymentInput.customerDetails.shippingAddress.phone,
+          address: createPaymentInput.customerDetails.shippingAddress.address,
+          city: createPaymentInput.customerDetails.shippingAddress.city,
+          postal_code: createPaymentInput.customerDetails.shippingAddress.postalCode,
+          country_code: createPaymentInput.customerDetails.shippingAddress.countryCode,
+        },
       },
     });
     return data;

@@ -330,6 +330,37 @@ module.exports = gql`
     isChecked: Boolean!
   }
 
+  input CreatePaymentInput {
+    grossAmount: Int!
+    customerDetails: CustomerDetailsInput!
+    itemDetails: [ItemDetail]!
+  }
+  
+  input ItemDetail {
+    id: String!
+    price: Int!
+    quantity: Int!
+    name: String!
+  }
+
+  input CustomerDetailsInput {
+    firstName: String!
+    email: String!
+    phone: String!
+    billingAddress: PaymentAddressInput!
+    shippingAddress: PaymentAddressInput!
+  }
+
+  input PaymentAddressInput {
+    firstName: String!
+    email: String!
+    phone: String!
+    address: String!
+    city: String!
+    postalCode: String!
+    countryCode: String!
+  }
+
   type Query {
     getUser(userId: ID!): User!
     getSeller(sellerId: ID!): User
@@ -353,7 +384,7 @@ module.exports = gql`
     getUserOrderById(oderId: ID!): [Order]
     getCities: [City] @cacheControl(maxAge: 1000)
     getCosts(costInput: CostInput): [Results]
-    createPayment: MidTransResult
+    createPayment(createPaymentInput: CreatePaymentInput): MidTransResult
   }
   type Mutation {
     register(registerInput: RegisterInput): User!

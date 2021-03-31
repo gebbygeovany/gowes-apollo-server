@@ -2,7 +2,7 @@
 
 module.exports = {
   Query: {
-    createPayment: async (_, __, { dataSources }) =>
-      dataSources.midTransApi.createPayment(),
+    createPayment: async (_, { createPaymentInput }, { dataSources }) =>
+      dataSources.midTransApi.createPayment(createPaymentInput),
   },
 };
