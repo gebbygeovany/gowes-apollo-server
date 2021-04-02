@@ -44,17 +44,6 @@ class MidTransApi extends RESTDataSource {
           postal_code: createPaymentInput.customerDetails.billingAddress.postalCode,
           country_code: createPaymentInput.customerDetails.billingAddress.countryCode,
         },
-        shipping_address: {
-          first_name:
-            createPaymentInput.customerDetails.shippingAddress.firstName,
-          last_name: "",
-          email: createPaymentInput.customerDetails.shippingAddress.email,
-          phone: createPaymentInput.customerDetails.shippingAddress.phone,
-          address: createPaymentInput.customerDetails.shippingAddress.address,
-          city: createPaymentInput.customerDetails.shippingAddress.city,
-          postal_code: createPaymentInput.customerDetails.shippingAddress.postalCode,
-          country_code: createPaymentInput.customerDetails.shippingAddress.countryCode,
-        },
       },
     });
     return data;

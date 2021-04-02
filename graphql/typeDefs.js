@@ -276,6 +276,10 @@ module.exports = gql`
     shipping: OrderShippingInput!
   }
 
+  input UpdateOrderInput {
+    state: OrderStateInput!
+  }
+
   input OrderItemInput {
     id: String!
     name: String!
@@ -348,7 +352,6 @@ module.exports = gql`
     email: String!
     phone: String!
     billingAddress: PaymentAddressInput!
-    shippingAddress: PaymentAddressInput!
   }
 
   input PaymentAddressInput {
@@ -416,7 +419,7 @@ module.exports = gql`
     ): Cart!
     deleteCartItem(cartId: ID!): String!
     addOrder(addOrderInput: AddOrderInput!, cartItemIds: [ID]!): Order!
-    updateOrder(oderId: ID!, addOrderInput: AddOrderInput!): Order!
+    updateOrder(oderId: ID!, updateOrderInput: UpdateOrderInput!): Order!
     updateCheckCart(checkedCart: CheckedCart!): String!
   }
   type Subscription {

@@ -86,7 +86,7 @@ module.exports = {
     },
     async updateOrder(
       _,
-      { oderId, addOrderInput: { itemIds, state, awbNumber, shippingCost } },
+      { oderId, updateOrderInput: {  state } },
       context
     ) {
       checkAuth(context);
