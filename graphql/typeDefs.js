@@ -52,6 +52,7 @@ module.exports = gql`
     awbNumber: String!
     courierName: String!
     buyerAddress: String!
+    shippingCost: Int!
   }
 
   type Item {
@@ -419,6 +420,7 @@ module.exports = gql`
     ): Cart!
     deleteCartItem(cartId: ID!): String!
     addOrder(addOrderInput: AddOrderInput!, cartItemIds: [ID]!): Order!
+    addAwbNumber(orderId: ID!, awbNumber: String!, courierName: String!, buyerAddress: String!, shippingCost:Int!): Order!
     updateOrder(oderId: ID!, updateOrderInput: UpdateOrderInput!): Order!
     updateCheckCart(checkedCart: CheckedCart!): String!
   }

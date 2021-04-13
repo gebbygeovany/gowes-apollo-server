@@ -35,7 +35,7 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async getSellerOrders(_, {username}, context) {
+    async getSellerOrders(_, { username }, context) {
       try {
         // checkAuth(context);
         const order = await Order.find({
@@ -84,9 +84,36 @@ module.exports = {
       const order = await newOrder.save();
       return order;
     },
+
+    async addAwbNumber(
+      _,
+      {
+        orderId,
+        awbNumber,
+        courierName,
+        buyerAddress,
+        shippingCost
+      },
+    ) {
+      const updatedOrders = await Order.findOneAndUpdate(
+        { _id: orderId },
+        {
+          shipping: {
+            awbNumber: awbNumber,
+            courierName: courierName,
+            buyerAddress: buyerAddress,
+            shippingCost: shippingCost
+          }
+        },
+        { new: true }
+      )
+      const awbNumberAdded = await updatedOrders.save();
+      return awbNumberAdded
+    },
+
     async updateOrder(
       _,
-      { oderId, updateOrderInput: {  state } },
+      { oderId, updateOrderInput: { state } },
       context
     ) {
       checkAuth(context);
