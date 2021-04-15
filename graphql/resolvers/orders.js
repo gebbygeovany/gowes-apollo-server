@@ -95,20 +95,28 @@ module.exports = {
         shippingCost
       },
     ) {
-      const updatedOrders = await Order.findOneAndUpdate(
-        { _id: orderId },
-        {
-          shipping: {
-            awbNumber: awbNumber,
-            courierName: courierName,
-            buyerAddress: buyerAddress,
-            shippingCost: shippingCost
-          }
-        },
-        { new: true }
-      )
-      const awbNumberAdded = await updatedOrders.save();
-      return awbNumberAdded
+      if (awbNumber.trim() !== '') {
+        const updatedOrders = await Order.findOneAndUpdate(
+          { _id: orderId },
+          {
+            shipping: {
+              awbNumber: awbNumber,
+              courierName: courierName,
+              buyerAddress: buyerAddress,
+              shippingCost: shippingCost
+            }
+          },
+          { new: true }
+        )
+        const awbNumberAdded = await updatedOrders.save();
+        return awbNumberAdded
+      } else {
+        throw new UserInputError("AWB number must not be empty", {
+          errors: {
+            awbNumber: "AWB number must not be empty",
+          },
+        });
+      }
     },
 
     async updateOrder(
