@@ -365,6 +365,13 @@ module.exports = gql`
     countryCode: String!
   }
 
+  input AddReviewInput {
+    score: Int!
+    body: String!
+    images: ImageInput
+    itemId: ID!
+  }
+
   type Query {
     getUser(userId: ID!): User!
     getSeller(sellerId: ID!): User
@@ -398,6 +405,7 @@ module.exports = gql`
     login(email: String!, password: String!): User!
     createPost(body: String!): Post!
     addItem(addItemInput: AddItemInput): Item!
+    addReview(addReviewInput: AddReviewInput): Review!
     updateItem(itemId: ID!, addItemInput: AddItemInput): Item!
     deletePost(postId: ID!): String!
     deleteItem(itemId: ID!): String!

@@ -38,6 +38,7 @@ module.exports = {
     ...messagesResolvers.Mutation,
     ...cartsResolvers.Mutation,
     ...ordersResolvers.Mutation,
+    ...reviewsResolvers.Mutation,
   },
   Subscription: {
     ...postsResolvers.Subscription,
